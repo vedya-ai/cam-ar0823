@@ -1,0 +1,19 @@
+Source: d3-isx031
+Section: devel
+Priority: optional
+Maintainer: Jacob Kiggins <jkiggins@d3engineering.com>
+Build-Depends: autotools-dev,
+               cdbs,
+               dpkg-dev (>= 1.16.1~),
+               debhelper (>= 9.0)
+Standards-Version: 3.9.6
+Homepage: http://www.d3engineering.com/
+
+Package: d3-isx031
+Architecture: arm64
+Pre-Depends: dpkg (>= 1.15.6~)
+Depends:
+Recommends: v4l-utils
+Description: Supplemental materials for D3 Jetson hardware.
+ Provides additional tools for D3 Jetson hardware systems.
+
