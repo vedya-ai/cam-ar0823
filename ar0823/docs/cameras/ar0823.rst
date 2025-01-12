@@ -1,0 +1,133 @@
+AR0823
+======
+D3's AR0823 camera module features the Sony AR0823 image sensor (an IMX623 with
+an integrated high performance image processing engine). Unlike most camera modules,
+D3's AR0823 comes fully tuned and does not require additional processing from an
+ISP like NVIDIA's Argus.
+
+.. seealso::
+
+   `D3 AR0823 Datasheet <https://www.d3engineering.com/wp-content/uploads/2023/05/D3-DesignCore-Discovery-AR0823-Datasheet.pdf>`_
+
+   `D3 AR0823 PRO Datasheet <https://www.d3engineering.com/wp-content/uploads/2023/05/D3-DesignCore-Discovery-PRO-AR0823-Datasheet.pdf>`_
+
+Modes
+-----
+D3's AR0823 driver supports two modes on NVIDIA Jetson:
+
+.. list-table:: AR0823 Modes
+   :header-rows: 1
+
+   * - Mode ID
+     - Resolution
+     - Framerate
+   * - 0
+     - 1920x1536
+     - 30 fps
+   * - 1
+     - 1600x1280
+     - 30 fps
+
+.. note::
+
+   In certain circumstances, it is not possible to use Mode 0 due to its high datarate. For example, on FPD-Link boards, 4 AR0823s streaming in Mode 0 on a single UB960 deserializer will exceed the deserializer's bandwidth limitations. Using Mode 1 in that scenario will not exceed the UB960's limitations.
+
+Example Usage
+-------------
+
+.. note::
+
+   Since the AR0823 has an on-board image processing engine and outputs processed
+   image data, it is not possible to use with Argus. Applications should use the
+   Linux V4L2 framework instead.
+
+GStreamer Pipelines
+^^^^^^^^^^^^^^^^^^^
+This pipeline fetches image data from the sensor and displays it in a window:
+
+.. code-block:: bash
+
+   # Note: Your AR0823 may not be at /dev/video0. You can use `media-ctl -p`
+   # to find which video node your AR0823 occupies.
+
+   # Mode 0 (default)
+   gst-launch-1.0 -v \
+      v4l2src device=/dev/video0 ! \
+      'video/x-raw,width=1920,height=1536,format=UYVY' ! \
+      xvimagesink
+
+   # Mode 1
+   v4l2-ctl --device 0 --set-ctrl sensor_mode=1
+   gst-launch-1.0 -v \
+      v4l2src device=/dev/video0 ! \
+      'video/x-raw,width=1600,height=1280,format=UYVY' ! \
+      xvimagesink
+
+This pipeline fetches image data from the sensor in Mode 0, crops it to 1920x1080, and displays it in a window:
+
+.. code-block:: bash
+
+   # Image size provided by sensor
+   IN_WIDTH=1920
+   IN_HEIGHT=1536
+   # Desired cropped image size
+   OUT_WIDTH=1920
+   OUT_HEIGHT=1080
+
+   # Calculate how to crop image evenly (chop off same amount of pixels on each side)
+   let H_CROP=(IN_WIDTH-OUT_WIDTH)/2
+   let V_CROP=(IN_HEIGHT-OUT_HEIGHT)/2
+
+   gst-launch-1.0 -v \
+      v4l2src device=/dev/video0 ! \
+      video/x-raw,width=$IN_WIDTH,height=$IN_HEIGHT,format=UYVY ! \
+      videocrop top=$V_CROP bottom=$V_CROP left=$H_CROP right=$H_CROP ! \
+      nvvidconv ! \
+      video/x-raw,width=$OUT_WIDTH,height=$OUT_HEIGHT ! \
+      xvimagesink
+
+This pipeline fetches image data from the sensor in Mode 1 and outputs it to an MP4 file:
+
+.. code-block:: bash
+
+   v4l2-ctl --device 0 --set-ctrl sensor_mode=1
+   gst-launch-1.0 -v v4l2src device=/dev/video0 ! \
+      'video/x-raw,width=1600,height=1280,format=UYVY' ! \
+      nvvidconv ! nvv4l2h264enc ! h264parse ! \
+      filesink location=myvideo.mp4
+
+Frame Synchronization
+^^^^^^^^^^^^^^^^^^^^^
+The AR0823 can be configured to trigger on an external signal to synchronize
+captures between multiple sensors. Refer to :ref:`driver-machxo2-camsync` for
+specific instructions on configuring and generating the external signal.
+
+Once an external signal is being generated and forwarded to the AR0823, any active
+stream must be stopped before configuring frame synchronization:
+
+.. code-block:: bash
+
+   v4l2-ctl --device 0 --set-ctrl frame_sync=2
+
+After enabling frame synchronization, all subsequent streams using the AR0823
+will use the sync mode configured above. See below for a list of
+modes:
+
+.. list-table:: AR0823 Frame Synchronization Modes
+   :header-rows: 1
+   :widths: 10 90
+
+   * - Mode
+     - Description
+   * - 0
+     - **Disabled** (default)
+
+       In this mode, the AR0823 streams autonomously and ignores the external sync signal.
+   * - 1
+     - **External Pulse-Based Sync**
+
+       In this mode, the AR0823 begins transmitting images once the sensor receives the external sync signal from the Jetson. After receiving the sync signal, the AR0823 begins streaming autonomously in sync with its own internal clock. Subsequent sync pulses will cause the sensor to adjust its internal vertical sync signal based on the time difference between external and internal signals.
+   * - 2
+     - **Shutter Trigger-Based Sync**
+
+       In this mode, the AR0823 begins exposure once the sensor receives the external sync signal from the Jetson. After receiving the sync signal, the AR0823 waits for the next external sync signal before beginning exposure again.

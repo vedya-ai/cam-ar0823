@@ -1,0 +1,36 @@
+/dts-v1/;
+/plugin/;
+
+#include <d3/d3-naming-utils.dtsi>
+/* cam specific */
+#define CAM_MODEL ar0823
+#define FPDLINK
+#define SER_ADDR_PHYSICAL 18
+#define GPIO_EXP_ADDR_PHYSICAL 70
+#define CSI_LANES 4
+/* cam specific end */
+
+/* Carrier Board Specific */
+#include <d3-hardware.dtsi>
+#include <d3/cameras/d3-hardware-defines.dtsi>
+
+/* Overlay */
+#include <d3-ser-ub953-template.dtsi>
+#include "d3-cam-ar0823-template.dtsi"
+#include <d3/cameras/d3-overlay-cam.dtsi>
+
+/* cam specific */
+&SER_NODE {
+	csi-lane-count = <4>;
+	csi-continuous-clock = <1>;
+	i2c-voltage-sel = <0x0>;
+
+	hs-clk-div = <0x4>;
+	div-m-val = <0x1b>;
+	div-n-val = <0xfa>;
+};
+
+&SER_GPIO_EXP_NODE {
+	status = "okay";
+};
+/* cam specific end */

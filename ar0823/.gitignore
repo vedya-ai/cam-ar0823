@@ -26,7 +26,7 @@ Makefile.in
 *.changes
 *.deb
 *.substvars
-d3-isx031/debian/*/
-d3-isx031/debian/changelog
-d3-isx031/debian/changelog-next
-d3-isx031/debian/files
+d3-ar0823/debian/*/
+d3-ar0823/debian/changelog
+d3-ar0823/debian/changelog-next
+d3-ar0823/debian/files

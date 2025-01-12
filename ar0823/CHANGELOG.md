@@ -50,7 +50,7 @@ Initial release of D3's ISX031 camera module with support for FPD-Link variants.
 ### Added
 - Support for D3 ISX031 FPD-Link module.
 
-[1.0.2]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-isx031/-/compare/D3%2FRELEASE%2F1.0.2...D3%2FRELEASE%2F1.1.0
-[1.0.2]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-isx031/-/compare/D3%2FRELEASE%2F1.0.1...D3%2FRELEASE%2F1.0.2
-[1.0.1]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-isx031/-/compare/D3%2FRELEASE%2F1.0.0...D3%2FRELEASE%2F1.0.1
-[1.0.0]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-isx031/-/tags/D3%2FRELEASE%2F1.0.0
+[1.0.2]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-ar0823/-/compare/D3%2FRELEASE%2F1.0.2...D3%2FRELEASE%2F1.1.0
+[1.0.2]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-ar0823/-/compare/D3%2FRELEASE%2F1.0.1...D3%2FRELEASE%2F1.0.2
+[1.0.1]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-ar0823/-/compare/D3%2FRELEASE%2F1.0.0...D3%2FRELEASE%2F1.0.1
+[1.0.0]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-ar0823/-/tags/D3%2FRELEASE%2F1.0.0
