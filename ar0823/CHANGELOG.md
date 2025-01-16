@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom sensor modes for external pulse-based frame sync and shutter trigger-based frame sync.
 
 ### Removed
-- Debug Devicetree template for Sony ISX031 FPD-Link modules.
+- Debug Devicetree template for Sony AR0823 FPD-Link modules.
 
 ### Fixed
 - Sensor now enters start-up/standby mode when probed, rather than staying in streaming mode.
@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.1] - 2024-03-06
 
 ### Added
-- Support for Sony ISX031 FPD-Link module.
+- Support for Sony AR0823 FPD-Link module.
 - Automated Debian packaging.
 - Support for lane polarity swizzle in carrier boards.
 
@@ -45,10 +45,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2023-07-21
 
-Initial release of D3's ISX031 camera module with support for FPD-Link variants.
+Initial release of D3's AR0823 camera module with support for FPD-Link variants.
 
 ### Added
-- Support for D3 ISX031 FPD-Link module.
+- Support for D3 AR0823 FPD-Link module.
 
 [1.0.2]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-ar0823/-/compare/D3%2FRELEASE%2F1.0.2...D3%2FRELEASE%2F1.1.0
 [1.0.2]: https://gitlab.d3engineering.com/nvidia/lkms/d3-module-ar0823/-/compare/D3%2FRELEASE%2F1.0.1...D3%2FRELEASE%2F1.0.2

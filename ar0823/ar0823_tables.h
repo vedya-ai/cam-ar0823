@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ISX031AT_H_
-#define ISX031AT_H_
+#ifndef AR0823AT_H_
+#define AR0823AT_H_
 
 #include "ar0823.h"
 #include <d3/reg_tbl.h>
@@ -32,8 +32,8 @@ extern const struct reg_tbl_t ar0823_30fps_4ch[];
 extern const struct reg_tbl_t ar0823_30fps_4ch_cropped[];
 
 enum ar0823_modes {
-	ISX031_MODE_30FPS_4CH = 0,		// Sensor Mode 23
-	ISX031_MODE_30FPS_4CH_CROPPED		// Sensor Mode 23 (cropped)
+	AR0823_MODE_30FPS_4CH = 0,		// Sensor Mode 23
+	AR0823_MODE_30FPS_4CH_CROPPED		// Sensor Mode 23 (cropped)
 };
 
-#endif // ISX031AT_H_
+#endif // AR0823AT_H_

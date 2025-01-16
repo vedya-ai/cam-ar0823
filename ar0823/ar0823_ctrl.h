@@ -17,8 +17,8 @@
  */
 
 
-#ifndef ISX031_CTRL_H
-#define ISX031_CTRL_H
+#ifndef AR0823_CTRL_H
+#define AR0823_CTRL_H
 
 extern struct tegracam_ctrl_ops ar0823_ctrl_ops;
 extern struct v4l2_ctrl_config ar0823_custom_controls[];
@@ -35,4 +35,4 @@ struct ar0823_analog_gain_settings_t {
 	u16 reg_30ba_22p5mhz;
 };
 
-#endif /* !ISX031_CTRL_H */
+#endif /* !AR0823_CTRL_H */

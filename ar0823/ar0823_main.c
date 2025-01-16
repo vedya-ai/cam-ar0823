@@ -181,8 +181,8 @@ static int ar0823_power_put(struct tegracam_device *tc_dev)
 }
 
 static const struct reg_tbl_t *ar0823_mode_table[] = {
-	[ISX031_MODE_30FPS_4CH] = ar0823_30fps_4ch,
-	[ISX031_MODE_30FPS_4CH_CROPPED] = ar0823_30fps_4ch_cropped
+	[AR0823_MODE_30FPS_4CH] = ar0823_30fps_4ch,
+	[AR0823_MODE_30FPS_4CH_CROPPED] = ar0823_30fps_4ch_cropped
 };
 
 static int ar0823_set_mode(struct tegracam_device *tc_dev)
@@ -213,13 +213,13 @@ static int ar0823_set_mode(struct tegracam_device *tc_dev)
 	TRY(err, regmap_write(priv->ctrl_map, 0xffff, 0x0));
 
 	switch (priv->frame_sync_mode) {
-		case ISX031_FSYNC_OFF:
+		case AR0823_FSYNC_OFF:
 			break;
-		case ISX031_FSYNC_EXTERNAL_PULSE:
+		case AR0823_FSYNC_EXTERNAL_PULSE:
 			dev_info(dev, "Using external pulse-based frame synchronization");
 			TRY(err, reg_tbl_write(priv->ctrl_map, ar0823_external_pulse_sync));
 			break;
-		case ISX031_FSYNC_SHUTTER_TRIGGER:
+		case AR0823_FSYNC_SHUTTER_TRIGGER:
 			dev_info(dev, "Using shutter trigger-based frame synchronization");
 			TRY(err, reg_tbl_write(priv->ctrl_map, ar0823_shutter_trigger_sync));
 			break;
@@ -247,14 +247,14 @@ static const struct camera_common_frmfmt ar0823_frmfmt[] = {
 		.framerates = ar0823_framerates_30fps,
 		.num_framerates = ARRAY_SIZE(ar0823_framerates_30fps),
 		.hdr_en = false,
-		.mode = ISX031_MODE_30FPS_4CH, 
+		.mode = AR0823_MODE_30FPS_4CH, 
 	},
 	{
 		.size = {1600, 1280},
 		.framerates = ar0823_framerates_30fps,
 		.num_framerates = ARRAY_SIZE(ar0823_framerates_30fps),
 		.hdr_en = false,
-		.mode = ISX031_MODE_30FPS_4CH_CROPPED,
+		.mode = AR0823_MODE_30FPS_4CH_CROPPED,
 	},
 };
 
@@ -355,7 +355,7 @@ static int ar0823_probe(struct i2c_client *client,
 	tc_dev->sensor_ops = &ar0823_common_ops;
 	tc_dev->v4l2sd_internal_ops = &ar0823_subdev_internal_ops;
 	tc_dev->tcctrl_ops = &ar0823_ctrl_ops;
-	priv->frame_sync_mode = ISX031_FSYNC_OFF;
+	priv->frame_sync_mode = AR0823_FSYNC_OFF;
 	priv->custom_ctrl_handler = &priv->_custom_ctrl_handler;
 
 	/* Register tc_dev with tegracam framework */
@@ -439,7 +439,7 @@ static struct i2c_driver ar0823_i2c_driver = {
 
 module_i2c_driver(ar0823_i2c_driver);
 
-MODULE_DESCRIPTION("Driver for ISX031 camera on NVIDIA Jetson");
+MODULE_DESCRIPTION("Driver for AR0823 camera on NVIDIA Jetson");
 MODULE_VERSION(D3_MODULE_VERSION);
 MODULE_AUTHOR("Daniel Breslawski <dbreslawski@d3engineering.com>");
 MODULE_AUTHOR("Jacob Kiggins <jkiggins@d3engineering.com>");

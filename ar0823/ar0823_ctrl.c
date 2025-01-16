@@ -31,8 +31,8 @@
 #include "ar0823_ctrl.h"
 
 enum {
-	ISX031_CID_BASE = (TEGRA_CAMERA_CID_BASE + 200),
-	ISX031_CID_FRAME_SYNC,
+	AR0823_CID_BASE = (TEGRA_CAMERA_CID_BASE + 200),
+	AR0823_CID_FRAME_SYNC,
 };
 
 // Tegracam exposed settings
@@ -69,13 +69,13 @@ static const struct v4l2_ctrl_ops ar0823_v4l2_ctrl_ops = {
 struct v4l2_ctrl_config ar0823_custom_controls[] = {
 	{
 		.ops = &ar0823_v4l2_ctrl_ops,
-		.id = ISX031_CID_FRAME_SYNC,
+		.id = AR0823_CID_FRAME_SYNC,
 		.name = "Frame Sync",
 		.type = V4L2_CTRL_TYPE_INTEGER,
 		.flags = V4L2_CTRL_FLAG_SLIDER,
 		.min = 0,
-		.max = (ISX031_NUM_FSYNC_MODES - 1),
-		.def = ISX031_FSYNC_OFF,
+		.max = (AR0823_NUM_FSYNC_MODES - 1),
+		.def = AR0823_FSYNC_OFF,
 		.step = 1,
 	}
 };
@@ -154,16 +154,16 @@ static int ar0823_set_vflip(struct ar0823 *priv, s64 val)
 
 	err = regmap_update_bits(
 		priv->s_data->regmap,
-		ISX031_REG_VREVERSE,
-		ISX031_REVERSE_MASK,
-		FIELD_PREP(ISX031_REVERSE_MASK, val ? 1 : 0)
+		AR0823_REG_VREVERSE,
+		AR0823_REVERSE_MASK,
+		FIELD_PREP(AR0823_REVERSE_MASK, val ? 1 : 0)
 	);
 
 	err |= regmap_update_bits(
 		priv->s_data->regmap,
-		ISX031_REG_VREVERSE_APL,
-		ISX031_REVERSE_MASK,
-		FIELD_PREP(ISX031_REVERSE_MASK, val ? 1 : 0)
+		AR0823_REG_VREVERSE_APL,
+		AR0823_REVERSE_MASK,
+		FIELD_PREP(AR0823_REVERSE_MASK, val ? 1 : 0)
 	);
 
 	return err;
@@ -177,16 +177,16 @@ static int ar0823_set_hflip(struct ar0823 *priv, s64 val)
 
 	err = regmap_update_bits(
 		priv->s_data->regmap,
-		ISX031_REG_HREVERSE,
-		ISX031_REVERSE_MASK,
-		FIELD_PREP(ISX031_REVERSE_MASK, val ? 1 : 0)
+		AR0823_REG_HREVERSE,
+		AR0823_REVERSE_MASK,
+		FIELD_PREP(AR0823_REVERSE_MASK, val ? 1 : 0)
 	);
 
 	err |= regmap_update_bits(
 		priv->s_data->regmap,
-		ISX031_REG_HREVERSE_APL,
-		ISX031_REVERSE_MASK,
-		FIELD_PREP(ISX031_REVERSE_MASK, val ? 1 : 0)
+		AR0823_REG_HREVERSE_APL,
+		AR0823_REVERSE_MASK,
+		FIELD_PREP(AR0823_REVERSE_MASK, val ? 1 : 0)
 	);
 
 	return err;
@@ -253,7 +253,7 @@ static int ar0823_s_ctrl(struct v4l2_ctrl *ctrl)
 		case V4L2_CID_VFLIP:
 			err = ar0823_set_vflip(priv, ctrl->val);
 			break;
-		case ISX031_CID_FRAME_SYNC:
+		case AR0823_CID_FRAME_SYNC:
 			dev_dbg(priv->dev, "Configuring frame sync mode %d", ctrl->val);
 			priv->frame_sync_mode = ctrl->val;
 			break;
